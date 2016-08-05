@@ -1,4 +1,4 @@
-
+#read and clean our data
 power<-GetCleanPowerData()
 
 #plotting our second plot
