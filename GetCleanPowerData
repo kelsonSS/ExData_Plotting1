@@ -1,0 +1,27 @@
+GetCleanPowerData<-function(){
+   
+  library(lubridate)
+  library(dplyr)
+  # Check to see if the file is installed in the current directory
+fileName_zip<-"exdata_data_household_power_consumption.zip"
+fileName<-'household_power_consumption.txt'
+if (!File.exists(fileName)){
+if(!file.exists(fileName_zip)){
+  URL<- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+  download.file(URL,fileName.zip, method = "curl")}
+unzip(fileName.zip)
+}
+
+    # read in the table and convert it to a data frame
+    
+power<-tbl_df(read.table(fileName, sep = ';', header = TRUE, 
+                         na.strings= "?", stringsAsFactors = FALSE))
+
+#  Convert dates to appropriate date formats and add a full date time column
+power<-power %>%mutate( DateTime= dmy_hms(paste(power$Date,power$Time)))
+       
+power$Date<-dmy(power$Date)
+# filter the specified dates 
+power<-filter(power, Date>= as.Date("2007-02-01"), Date<=("2007-02-02"))
+return(power)
+}
